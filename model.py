@@ -8,7 +8,7 @@ from transformers import BertModel, BertTokenizer
 
 
 def return_mask_lengths(ids):
-    mask = torch.sign(ids).float()
+    mask = torch.sign(ids).float() # 对齐数值
     lengths = torch.sum(mask, 1)
     return mask, lengths
 
