@@ -40,6 +40,8 @@ def gumbel_softmax(logits, tau=1, hard=False, eps=1e-20, dim=-1):
     return ret
 
 
+
+# 类别KL损失  答案采样空间
 class CategoricalKLLoss(nn.Module):
     def __init__(self):
         super(CategoricalKLLoss, self).__init__()
@@ -50,7 +52,7 @@ class CategoricalKLLoss(nn.Module):
         kl = (P * (log_P - log_Q)).sum(dim=-1).sum(dim=-1)
         return kl.mean(dim=0)
 
-
+# 高斯KL损失 问题采样空间
 class GaussianKLLoss(nn.Module):
     def __init__(self):
         super(GaussianKLLoss, self).__init__()
@@ -62,6 +64,7 @@ class GaussianKLLoss(nn.Module):
         return kl.mean(dim=0)
 
 
+# token embedding / bert embedding
 class Embedding(nn.Module):
     def __init__(self, bert_model):
         super(Embedding, self).__init__()
@@ -91,7 +94,7 @@ class Embedding(nn.Module):
 
         return embeddings
 
-
+# context embedding 
 class ContextualizedEmbedding(nn.Module):
     def __init__(self, bert_model):
         super(ContextualizedEmbedding, self).__init__()
@@ -153,7 +156,7 @@ class CustomLSTM(nn.Module):
 
         return output, state
 
-
+# 后验概率编码
 class PosteriorEncoder(nn.Module):
     def __init__(self, embedding, emsize,
                  nhidden, nlayers,
@@ -240,6 +243,7 @@ class PosteriorEncoder(nn.Module):
         return zq_mu, zq_logvar, zq, za_prob, za
 
 
+# 先验概率编码
 class PriorEncoder(nn.Module):
     def __init__(self, embedding, emsize,
                  nhidden, nlayers,
